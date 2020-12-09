@@ -1,9 +1,7 @@
 import * as React from "react";
 import classNames from "classnames";
-import { useForceUpdate } from "react-base-hooks";
 
 import FocusRingContext, { FocusRingContextManager } from "./FocusRingContext";
-import { getFocusRingBaseClassName } from "./util/focusRingStyles";
 
 type FocusRingScopeProps = {
   containerRef: React.RefObject<Element>;
@@ -30,13 +28,13 @@ export default function FocusRingScope(props: FocusRingScopeProps) {
 
 function Ring() {
   const ringContext = React.useContext(FocusRingContext);
-  const update = useForceUpdate();
+  const [, forceUpdate] = React.useState<{}>({});
   React.useEffect(() => {
-    ringContext.invalidate = update;
+    ringContext.invalidate = () => forceUpdate({});
     return () => {
       ringContext.invalidate = () => null;
     };
-  }, [ringContext, update]);
+  }, [ringContext]);
 
   if (!ringContext.visible) return null;
 

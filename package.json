@@ -27,7 +27,7 @@
   "scripts": {
     "format": "prettier --write '**'",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rm -rf dist && microbundle --external react",
+    "build": "rm -rf dist && microbundle --external react --jsx React.createElement",
     "examples": "parcel serve examples/index.html",
     "prepublishOnly": "npm run -s build"
   },
@@ -35,14 +35,22 @@
     "react": "^16.8.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.12.1",
+    "@babel/plugin-proposal-object-rest-spread": "^7.12.1",
+    "@babel/plugin-proposal-optional-chaining": "^7.12.7",
+    "@babel/plugin-transform-typescript": "^7.12.1",
+    "@types/classnames": "^2.2.11",
+    "@types/invariant": "^2.2.34",
     "@types/react": "16.9.19",
     "@types/react-dom": "16.9.5",
-    "microbundle": "^0.11.0",
+    "@types/shallowequal": "^1.1.1",
+    "microbundle": "^0.12.4",
     "parcel": "^1.12.4",
     "prettier": "^2.0.4",
     "react": "^16.13.1",
     "react-dom": "^16.12.0",
-    "typescript": "3.9.3"
+    "typescript": "4.1.2"
   },
   "bugs": {
     "url": "https://github.com/discord/focus-rings/issues"
@@ -50,6 +58,6 @@
   "dependencies": {
     "classnames": "^2.2.6",
     "invariant": "^2.2.4",
-    "shallow-equal": "^1.2.1"
+    "shallowequal": "^1.1.0"
   }
 }

@@ -1,6 +1,6 @@
-import * as React from 'react';
+import * as React from "react";
 
-import {getBestFocusColor, getBackgroundColorFromAncestry} from '../FocusColorUtils';
+import { getBestFocusColor, getBackgroundColorFromAncestry } from "./FocusColorUtils";
 import {
   Offset,
   FocusRingShowOpts,
@@ -8,7 +8,7 @@ import {
   FocusRingStyleProperties,
   FOCUS_RING_COLOR_CSS_PROPERTY,
   FOCUS_RING_RADIUS_CSS_PROPERTY,
-} from '../FocusRingTypes';
+} from "./FocusRingTypes";
 
 // This is a global singleton value because there should only ever be one focus
 // ring visible on a page. This is also not a stack of values for the same
@@ -70,7 +70,7 @@ export class FocusRingContextManager {
    * each element.
    */
   private getElementAncestors(element?: Element): FocusRingAncestry {
-    if (element == null) return {elements: [], styles: []};
+    if (element == null) return { elements: [], styles: [] };
 
     const elements: Element[] = [];
     const styles: CSSStyleDeclaration[] = [];
@@ -81,7 +81,7 @@ export class FocusRingContextManager {
       styles.push(window.getComputedStyle(current));
       current = current.parentElement;
     }
-    return {elements, styles};
+    return { elements, styles };
   }
 
   /**
@@ -95,7 +95,7 @@ export class FocusRingContextManager {
     for (let i = 0; i < ancestry.elements.length; i++) {
       const element = ancestry.elements[i];
       const style = ancestry.styles[i];
-      const zIndex = parseInt(style.getPropertyValue('z-index'));
+      const zIndex = parseInt(style.getPropertyValue("z-index"));
       if (!isNaN(zIndex)) return zIndex + 1;
 
       if (element === this.container) break;
@@ -113,14 +113,14 @@ export class FocusRingContextManager {
     if (this.container == null) return {};
 
     const containerRect = this.container.getBoundingClientRect();
-    const {scrollTop, scrollLeft} = this.container;
+    const { scrollTop, scrollLeft } = this.container;
 
     let top = 0;
     let right = 0;
     let bottom = 0;
     let left = 0;
 
-    if (typeof this.offset === 'number') {
+    if (typeof this.offset === "number") {
       top = this.offset;
       right = this.offset;
       bottom = this.offset;
@@ -168,7 +168,7 @@ export class FocusRingContextManager {
 }
 
 const GLOBAL_FOCUS_RING_CONTEXT = new FocusRingContextManager();
-GLOBAL_FOCUS_RING_CONTEXT.setContainer(document.ownerDocument?.body ?? document.body);
+GLOBAL_FOCUS_RING_CONTEXT.setContainer(document.body);
 
 const FocusRingContext = React.createContext(GLOBAL_FOCUS_RING_CONTEXT);
 

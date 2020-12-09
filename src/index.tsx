@@ -1,7 +1,7 @@
-export FocusRing from './FocusRing';
-export FocusRingScope from './FocusRingScope';
-export type * from './FocusRingTypes';
+import FocusRing from "./FocusRing";
+import FocusRingScope from "./FocusRingScope";
+import FocusRingAnimationManager from "./FocusRingAnimationManager";
 
-export FocusRingAnimationManager from './FocusRingAnimationManager';
+export * from "./FocusRingTypes";
 
-export * from './util/focusRingStyles';
+export { FocusRing, FocusRingScope, FocusRingAnimationManager };

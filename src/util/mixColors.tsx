@@ -1,3 +1,5 @@
+import Color from "./Color";
+
 export default function mixColors(color1: Color, color2: Color): Color {
   const alpha = color1.alpha;
   const r = (1 - alpha) * color2.red + alpha * color1.red;

@@ -5,7 +5,7 @@ import invariant from "invariant";
 import FocusRingContext from "./FocusRingContext";
 import FocusRingScope from "./FocusRingScope";
 
-import type { FocusRingProps } from "../FocusRingTypes";
+import type { FocusRingProps } from "./FocusRingTypes";
 
 export { FocusRingScope };
 export type { FocusRingProps };

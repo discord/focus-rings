@@ -1,4 +1,4 @@
-import { shallowEqualObjects } from "shallow-equal";
+import shallowEqual from "shallowequal";
 
 import { ACTIVE_RING_CONTEXT_MANAGER } from "./FocusRingContext";
 
@@ -11,7 +11,7 @@ function invalidateCurrentRing() {
   if (!tracking) return;
 
   const newStyle = ACTIVE_RING_CONTEXT_MANAGER?.getStyle();
-  if (newStyle != null && !shallowEqualObjects(newStyle, mostRecentStyle)) {
+  if (newStyle != null && !shallowEqual(newStyle, mostRecentStyle)) {
     mostRecentStyle = newStyle;
     ACTIVE_RING_CONTEXT_MANAGER?.invalidate();
   } else {
