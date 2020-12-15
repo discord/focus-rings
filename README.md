@@ -2,10 +2,12 @@
 
 A centralized system for displaying and stylizing focus indicators anywhere on a webpage.
 
+![a gif showing focus rings in action](https://support.discord.com/hc/article_attachments/360101312273/keyboard_nav_example_gif.gif)
+
 
 ## Motivation
 
-When working on creating a complete keyboard navigation experience for Discord, we ran into a number
+When working on creating [a complete keyboard navigation experience for Discord](https://support.discord.com/hc/en-us/articles/1500000056121), we ran into a number
 of problems with rendering clean and consistent focus rings and were unable to find any suitable
 native alternatives. After a lot of trial and error, we landed on this system as a way to meet all
 of our needs. You can read more about the process we went through in [this blog post]() (link TBD).
