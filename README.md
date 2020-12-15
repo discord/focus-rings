@@ -115,4 +115,4 @@ function App() {
 ReactDOM.render(<App />, document.body);
 ```
 
-You can find a more complete example in the [`examples` directory](https://github.com/discord/focus-rings/tree/main/examples) of this repository.
+You can find a more complete example in the [`examples` directory](https://github.com/discord/focus-rings/tree/main/examples) of this repository. You can find a [hosted version of the example application here.](https://codesandbox.io/s/happy-fermat-8xd7i?file=/src/index.tsx)
