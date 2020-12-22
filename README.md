@@ -27,7 +27,7 @@ This library is composed of two components: `FocusRing` and `FocusRingScope`.
 `FocusRingScope` is responsible for providing a frame of reference for calculating the position of any `FocusRing` instances it
 contains. The `containerRef` prop takes a [`React.Ref`](https://reactjs.org/docs/refs-and-the-dom.html) that references the DOM
 element that should be used for these position calculations. You'll want to include a `FocusRingScope` instance at the top level
-of your application. If a component creates a new scroll container, or is absoultely positioned within the viewport, you should
+of your application. If a component creates a new scroll container, or is absolutely positioned within the viewport, you should
 add a new `FocusRingScope`. 
 
 
