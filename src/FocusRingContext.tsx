@@ -40,7 +40,6 @@ export class FocusRingContextManager {
   }
 
   showElement(element: Element, opts: FocusRingShowOpts = {}) {
-    this.invalidate();
     this.targetElement = element;
     this.targetAncestry = this.getElementAncestors(this.targetElement);
     this.boundingBox = undefined;
@@ -48,16 +47,17 @@ export class FocusRingContextManager {
     this.offset = opts.offset ?? 0;
     this.zIndex = opts.zIndex;
     setActiveRingContextManager(this);
+    this.invalidate();
   }
 
   hide() {
-    this.invalidate();
     this.targetElement = undefined;
     this.targetAncestry = undefined;
     this.boundingBox = undefined;
     this.className = undefined;
     this.offset = 0;
     this.zIndex = undefined;
+    this.invalidate();
   }
 
   get visible() {
