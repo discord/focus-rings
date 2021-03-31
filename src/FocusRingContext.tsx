@@ -78,7 +78,7 @@ export class FocusRingContextManager {
     let current: Element | null = element;
     while (current != null) {
       elements.push(current);
-      styles.push(window.getComputedStyle(current));
+      typeof window !== "undefined" && styles.push(window.getComputedStyle(current));
       current = current.parentElement;
     }
     return { elements, styles };
@@ -168,7 +168,7 @@ export class FocusRingContextManager {
 }
 
 const GLOBAL_FOCUS_RING_CONTEXT = new FocusRingContextManager();
-GLOBAL_FOCUS_RING_CONTEXT.setContainer(document.body);
+typeof window !== "undefined" && GLOBAL_FOCUS_RING_CONTEXT.setContainer(document.body);
 
 const FocusRingContext = React.createContext(GLOBAL_FOCUS_RING_CONTEXT);
 
