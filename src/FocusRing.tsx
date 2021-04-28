@@ -19,6 +19,12 @@ interface FocusRingComponentProps extends FocusRingProps {
   children: React.ReactElement<FocusableChildProps>;
 }
 
+// ref: https://github.com/facebook/react/issues/14927
+const useLayoutEffect =
+  typeof window !== "undefined" && window.document && window.document.createElement
+    ? React.useLayoutEffect
+    : React.useEffect;
+
 /**
  * Augments the child component to be able to render a focus ring
  */
@@ -66,7 +72,7 @@ export default function FocusRing(props: FocusRingComponentProps) {
 
   // Force the ring to update itself whenever this component re-renders
   // to stay up-to-date with the active element's properties.
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     if (!enabled) return;
     ringContext.invalidate();
   });
@@ -94,7 +100,7 @@ export default function FocusRing(props: FocusRingComponentProps) {
 
   // When using a remote focus ring (both `focusTarget` and `ringTarget` are
   // set), use native DOM event listeners to track when focus happens.
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     if (focused != null) return;
 
     const target = focusTarget?.current;
