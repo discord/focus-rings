@@ -1,6 +1,6 @@
 {
   "name": "react-focus-rings",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": "Jon Egeland <jonegeland@gmail.com>",
   "description": "A centralized system for displaying and stylizing focus indicators anywhere on a webpage.",
   "license": "MIT",
