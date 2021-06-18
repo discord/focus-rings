@@ -77,12 +77,16 @@ export default function FocusRing(props: FocusRingComponentProps) {
     ringContext.invalidate();
   });
 
+  // If this ring no longer is enabled, hide it.
+  React.useEffect(() => {
+    if (!enabled) ringContext.hide();
+  }, [enabled, ringContext]);
+
   // If this ring was active, hide it when this component unmounts.
   React.useEffect(() => {
     return () => {
       if (focusedRef.current) ringContext.hide();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ringContext]);
 
   // Apply the focus ring if the controlled `focused` prop becomes true.
