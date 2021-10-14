@@ -24,6 +24,10 @@ function setActiveRingContextManager(manager: FocusRingContextManager) {
   }
 }
 
+function parseBorderRadius(radius: string) {
+  return parseInt(radius) > 0 ? radius : undefined;
+}
+
 export class FocusRingContextManager {
   targetElement?: Element;
   targetAncestry?: FocusRingAncestry;
@@ -105,8 +109,16 @@ export class FocusRingContextManager {
   }
 
   private getBorderRadius(ancestry: FocusRingAncestry) {
-    const computed = ancestry.styles[0]?.borderRadius;
-    return parseInt(computed) > 0 ? computed : undefined;
+    const topLeft = parseBorderRadius(ancestry.styles[0]?.borderTopLeftRadius);
+    const topRight = parseBorderRadius(ancestry.styles[0]?.borderTopRightRadius);
+    const bottomRight = parseBorderRadius(ancestry.styles[0]?.borderBottomRightRadius);
+    const bottomLeft = parseBorderRadius(ancestry.styles[0]?.borderBottomLeftRadius);
+
+    if (!topLeft || !topRight || !bottomRight || !bottomLeft) {
+      return undefined;
+    }
+
+    return `${topLeft} ${topRight} ${bottomRight} ${bottomLeft}`;
   }
 
   private makePositionFromDOMRect(rect: DOMRect) {
