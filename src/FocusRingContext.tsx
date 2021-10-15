@@ -114,11 +114,7 @@ export class FocusRingContextManager {
     const bottomRight = parseBorderRadius(ancestry.styles[0]?.borderBottomRightRadius);
     const bottomLeft = parseBorderRadius(ancestry.styles[0]?.borderBottomLeftRadius);
 
-    if (!topLeft || !topRight || !bottomRight || !bottomLeft) {
-      return undefined;
-    }
-
-    return `${topLeft} ${topRight} ${bottomRight} ${bottomLeft}`;
+    return `${topLeft ?? 0} ${topRight ?? 0} ${bottomRight ?? 0} ${bottomLeft ?? 0}`;
   }
 
   private makePositionFromDOMRect(rect: DOMRect) {
