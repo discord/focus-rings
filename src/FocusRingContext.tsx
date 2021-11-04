@@ -24,8 +24,11 @@ function setActiveRingContextManager(manager: FocusRingContextManager) {
   }
 }
 
-function parseBorderRadius(radius: string) {
-  return parseInt(radius) > 0 ? radius : undefined;
+function parseBorderRadius(radius: string | undefined) {
+  if (radius) {
+    return parseInt(radius) > 0 ? radius : undefined;
+  }
+  return undefined;
 }
 
 export class FocusRingContextManager {
