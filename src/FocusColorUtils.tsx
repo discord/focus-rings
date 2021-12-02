@@ -1,15 +1,16 @@
 import Color from "./util/Color";
 import mixColors from "./util/mixColors";
 
-import type { FocusRingAncestry } from "./FocusRingTypes";
+import type { FocusRingAncestry, ThemeOptions } from "./FocusRingTypes";
 
 enum ALLOWED_FOCUS_RING_COLORS {
   PRIMARY = "var(--focus-primary)",
   WHITE = "rgba(255,255,255,0.7)",
-  BLACK = "rgba(0, 0, 0, 0.85)",
+  LIGHT = "var(--focus-light, rgba(255,255,255,0.7))",
+  DARK = "var(--focus-dark, rgba(0, 0, 0, 0.85))",
 }
 
-export function getBestFocusColor(color?: Color) {
+export function getBestFocusColor(color?: Color, themeOptions?: ThemeOptions) {
   if (color == null) return ALLOWED_FOCUS_RING_COLORS.PRIMARY;
 
   const { saturation } = color.toHSL();
@@ -17,8 +18,13 @@ export function getBestFocusColor(color?: Color) {
   if (saturation <= 0.4) {
     return ALLOWED_FOCUS_RING_COLORS.PRIMARY;
   }
+  if (typeof themeOptions !== 'undefined') {
+    const defaultTreshold = 0.2;
+    const threshold = themeOptions.brightnessTreshold || defaultTreshold;
+    return brightness < threshold ? ALLOWED_FOCUS_RING_COLORS.LIGHT : ALLOWED_FOCUS_RING_COLORS.DARK;
+  }
 
-  return brightness < 200 ? ALLOWED_FOCUS_RING_COLORS.WHITE : ALLOWED_FOCUS_RING_COLORS.BLACK;
+  return ALLOWED_FOCUS_RING_COLORS.WHITE;
 }
 
 export function getBackgroundColorFromAncestry(ancestry: FocusRingAncestry): Color {

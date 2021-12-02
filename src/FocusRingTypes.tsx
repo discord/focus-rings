@@ -40,3 +40,7 @@ export type FocusRingStyleProperties = {
   [FOCUS_RING_COLOR_CSS_PROPERTY]?: string;
   [FOCUS_RING_RADIUS_CSS_PROPERTY]?: string;
 };
+
+export type ThemeOptions = {
+  brightnessTreshold?: number;
+};
