@@ -84,7 +84,7 @@ import {FocusRingProps} from 'react-focus-rings'
 
 The focus ring also relies on some default CSS styles in order to
 render properly. To make this work in your project, be sure to import the styles separately somwhere
-within your app with `import "focus-rings/src/styles.css";`.
+within your app with `import "react-focus-rings/src/styles.css";`.
 
 ## Example
 
@@ -95,7 +95,7 @@ import * as React from "react";
 import ReactDOM from "react-dom";
 
 import { FocusRing, FocusRingScope } from "react-focus-rings";
-import "focus-rings/src/styles.css";
+import "react-focus-rings/src/styles.css";
 
 function App() {
   const containerRef = React.useRef<HTMLDivElement>(null);
