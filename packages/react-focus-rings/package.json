@@ -1,0 +1,65 @@
+{
+  "name": "react-focus-rings",
+  "version": "1.0.5",
+  "type": "module",
+  "author": "Jon Egeland <jonegeland@gmail.com>",
+  "description": "A centralized system for displaying and stylizing focus indicators anywhere on a webpage.",
+  "license": "MIT",
+  "repository": "discord/focus-rings",
+  "homepage": "https://github.com/discord/focus-rings#readme",
+  "keywords": [
+    "a11y",
+    "focus",
+    "focus-indicator",
+    "focus-ring",
+    "layer",
+    "react",
+    "typescript"
+  ],
+  "source": "src/index.tsx",
+  "main": "dist/focus-rings.js",
+  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/focus-rings.js",
+      "require": "./dist/focus-rings.umd.cjs",
+      "types": "./dist/types/index.d.ts"
+    },
+    "./src/styles.css": {
+      "import": "./src/styles.css",
+      "require": "./src/styles.css"
+    }
+  },
+  "files": [
+    "src",
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && pnpm types",
+    "preview": "vite preview",
+    "prepublishOnly": "pnpm run -s build",
+    "types": "tsc --project tsconfig.build.json"
+  },
+  "peerDependencies": {
+    "react": "16.8 - 18"
+  },
+  "dependencies": {
+    "classnames": "^2.3.2",
+    "invariant": "^2.2.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "prettier": "^2.0.4",
+    "shallowequal": "^1.1.0",
+    "typescript": "4.8.3"
+  },
+  "devDependencies": {
+    "@types/invariant": "^2.2.35",
+    "@types/react": "^18.0.17",
+    "@types/react-dom": "^18.0.6",
+    "@types/shallowequal": "^1.1.1",
+    "@vitejs/plugin-react": "^2.1.0",
+    "typescript": "^4.8.3",
+    "vite": "^3.1.0"
+  }
+}

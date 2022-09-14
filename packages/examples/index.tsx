@@ -1,8 +1,8 @@
 import * as React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 
-import { FocusRing, FocusRingScope } from "../src";
-import "../src/styles.css";
+import { FocusRing, FocusRingScope } from "react-focus-rings";
+import "react-focus-rings/src/styles.css";
 
 function Button() {
   return (
@@ -12,7 +12,7 @@ function Button() {
   );
 }
 
-function Anchor({ children }) {
+function Anchor({ children }: { children: React.ReactNode }) {
   return (
     <FocusRing>
       <a tabIndex={0} href="#">
@@ -22,7 +22,7 @@ function Anchor({ children }) {
   );
 }
 
-function Scrollable({ children }) {
+function Scrollable({ children }: { children: React.ReactNode }) {
   const containerRef = React.useRef<HTMLDivElement>(null);
   // Render the scope _within_ the scrolling container so that it will render
   // in the same layer and perfectly follow content as it scrolls.
@@ -78,4 +78,5 @@ function App() {
   );
 }
 
-ReactDOM.render(<App />, document.getElementById("root"));
+const root = createRoot(document.getElementById("root")!);
+root.render(<App />);

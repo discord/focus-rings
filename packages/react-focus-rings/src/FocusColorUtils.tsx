@@ -18,10 +18,12 @@ export function getBestFocusColor(color?: Color, themeOptions?: ThemeOptions) {
   if (saturation <= 0.4) {
     return ALLOWED_FOCUS_RING_COLORS.PRIMARY;
   }
-  if (typeof themeOptions !== 'undefined') {
+  if (typeof themeOptions !== "undefined") {
     const defaultTreshold = 0.2;
     const threshold = themeOptions.brightnessTreshold || defaultTreshold;
-    return brightness < threshold ? ALLOWED_FOCUS_RING_COLORS.LIGHT : ALLOWED_FOCUS_RING_COLORS.DARK;
+    return brightness < threshold
+      ? ALLOWED_FOCUS_RING_COLORS.LIGHT
+      : ALLOWED_FOCUS_RING_COLORS.DARK;
   }
 
   return ALLOWED_FOCUS_RING_COLORS.WHITE;
