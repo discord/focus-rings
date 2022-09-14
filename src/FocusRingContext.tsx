@@ -8,6 +8,7 @@ import {
   FocusRingStyleProperties,
   FOCUS_RING_COLOR_CSS_PROPERTY,
   FOCUS_RING_RADIUS_CSS_PROPERTY,
+  ThemeOptions,
 } from "./FocusRingTypes";
 
 // This is a global singleton value because there should only ever be one focus
@@ -39,11 +40,16 @@ export class FocusRingContextManager {
   offset: Offset | number = 0;
   zIndex?: number;
   container: Element | null = null;
+  themeOptions?: ThemeOptions;
 
   invalidate: () => void = () => null;
 
   setContainer(element: Element | null) {
     this.container = element;
+  }
+
+  setThemeOptions(themeOptions?: ThemeOptions) {
+    this.themeOptions = themeOptions;
   }
 
   showElement(element: Element, opts: FocusRingShowOpts = {}) {
@@ -169,7 +175,7 @@ export class FocusRingContextManager {
       styles = {
         ...this.makePositionFromDOMRect(this.targetElement.getBoundingClientRect()),
         zIndex: this.zIndex ?? this.getNextZIndexForAncestry(this.targetAncestry),
-        [FOCUS_RING_COLOR_CSS_PROPERTY]: getBestFocusColor(backgroundColor),
+        [FOCUS_RING_COLOR_CSS_PROPERTY]: getBestFocusColor(backgroundColor, this.themeOptions),
         [FOCUS_RING_RADIUS_CSS_PROPERTY]: this.getBorderRadius(this.targetAncestry),
       };
     }
