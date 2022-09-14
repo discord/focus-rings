@@ -21,7 +21,7 @@ interface FocusRingComponentProps extends FocusRingProps {
 
 // ref: https://github.com/facebook/react/issues/14927
 const useLayoutEffect =
-  typeof window !== "undefined" && window.document && window.document.createElement
+  typeof window !== "undefined" && window.document?.createElement != null
     ? React.useLayoutEffect
     : React.useEffect;
 

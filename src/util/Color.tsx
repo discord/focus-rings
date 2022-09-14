@@ -180,7 +180,7 @@ export default class Color {
     }
     colorString = colorString.replace("#", "");
     if (colorString.length < 6) {
-      const [r, g, b, a] = colorString;
+      const [r, g, b, a] = colorString.split("");
       colorString = r + r + g + g + b + b;
       if (a) {
         colorString += a + a;
