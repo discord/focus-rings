@@ -118,12 +118,16 @@ export class FocusRingContextManager {
   }
 
   private getBorderRadius(ancestry: FocusRingAncestry) {
-    const topLeft = parseBorderRadius(ancestry.styles[0]?.borderTopLeftRadius);
-    const topRight = parseBorderRadius(ancestry.styles[0]?.borderTopRightRadius);
-    const bottomRight = parseBorderRadius(ancestry.styles[0]?.borderBottomRightRadius);
-    const bottomLeft = parseBorderRadius(ancestry.styles[0]?.borderBottomLeftRadius);
+    const topLeft = parseBorderRadius(ancestry.styles[0]?.borderTopLeftRadius) ?? "0";
+    const topRight = parseBorderRadius(ancestry.styles[0]?.borderTopRightRadius) ?? "0";
+    const bottomRight = parseBorderRadius(ancestry.styles[0]?.borderBottomRightRadius) ?? "0";
+    const bottomLeft = parseBorderRadius(ancestry.styles[0]?.borderBottomLeftRadius) ?? "0";
 
-    return `${topLeft ?? 0} ${topRight ?? 0} ${bottomRight ?? 0} ${bottomLeft ?? 0}`;
+    if (topLeft === "0" && topRight === "0" && bottomRight === "0" && bottomLeft === "0") {
+      return undefined;
+    }
+
+    return `${topLeft} ${topRight} ${bottomRight} ${bottomLeft}`;
   }
 
   private makePositionFromDOMRect(rect: DOMRect) {
