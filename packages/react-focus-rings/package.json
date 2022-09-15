@@ -17,7 +17,8 @@
     "typescript"
   ],
   "source": "src/index.tsx",
-  "main": "dist/focus-rings.js",
+  "main": "dist/focus-rings.umd.cjs",
+  "module": "dist/focus-rings.js",
   "types": "dist/types/index.d.ts",
   "exports": {
     ".": {
