@@ -2,6 +2,7 @@ import * as React from "react";
 import classNames from "classnames";
 
 import FocusRingContext, { FocusRingContextManager } from "./FocusRingContext";
+import FocusRingManager from "./FocusRingManager";
 import { ThemeOptions } from "./FocusRingTypes";
 
 type FocusRingScopeProps = {
@@ -39,7 +40,7 @@ function Ring() {
     };
   }, [ringContext]);
 
-  if (!ringContext.visible) return null;
+  if (!FocusRingManager.ringsEnabled || !ringContext.visible) return null;
 
   return (
     <div

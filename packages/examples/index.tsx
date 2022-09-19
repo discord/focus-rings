@@ -1,13 +1,13 @@
 import * as React from "react";
 import { createRoot } from "react-dom/client";
 
-import { FocusRing, FocusRingScope } from "react-focus-rings";
+import { FocusRing, FocusRingManager, FocusRingScope } from "react-focus-rings/src";
 import "react-focus-rings/src/styles.css";
 
 function Button() {
   return (
     <FocusRing offset={-2}>
-      <button onClick={console.log}>Click Me</button>
+      <button onClick={() => FocusRingManager.setRingsEnabled(true)}>Click Me</button>
     </FocusRing>
   );
 }

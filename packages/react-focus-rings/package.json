@@ -26,6 +26,10 @@
       "require": "./dist/focus-rings.umd.cjs",
       "types": "./dist/types/index.d.ts"
     },
+    "./src": {
+      "import": "./src/index.tsx",
+      "require": "./src/index.tsx"
+    },
     "./src/styles.css": {
       "import": "./src/styles.css",
       "require": "./src/styles.css"
