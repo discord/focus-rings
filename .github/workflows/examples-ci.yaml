@@ -1,7 +1,6 @@
 name: ci
 on:
   pull_request:
-    paths: [./packages/examples/**]
 
 defaults:
   run:

@@ -1,7 +1,6 @@
 name: ci
 on:
   pull_request:
-    paths: [./packages/react-focus-rings/**]
 
 defaults:
   run:
