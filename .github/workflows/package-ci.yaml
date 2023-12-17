@@ -1,0 +1,28 @@
+name: ci
+on:
+  pull_request:
+    paths: [react-focus-rings/**]
+
+defaults:
+  run:
+    working-directory: ./packages/react-focus-rings
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - run: pnpm install
+      - run: pnpm run build
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - run: pnpm install
+      - run: pnpm run lint
