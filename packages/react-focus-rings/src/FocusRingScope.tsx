@@ -19,7 +19,6 @@ export default function FocusRingScope(props: FocusRingScopeProps) {
     manager.current.setContainer(containerRef.current);
     manager.current.setThemeOptions(themeOptions);
     // We do actually want this to run every time `current` changes
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [containerRef.current]);
 
   return (
@@ -32,7 +31,7 @@ export default function FocusRingScope(props: FocusRingScopeProps) {
 
 function Ring() {
   const ringContext = React.useContext(FocusRingContext);
-  const [, forceUpdate] = React.useState<{}>({});
+  const [, forceUpdate] = React.useState({});
   React.useEffect(() => {
     ringContext.invalidate = () => forceUpdate({});
     return () => {

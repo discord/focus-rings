@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "fix": "eslint --fix '**/*.tsx'",
+    "lint": "eslint"
   },
   "dependencies": {
     "react-focus-rings": "workspace:../react-focus-rings",

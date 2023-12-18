@@ -36,7 +36,8 @@ function Scrollable({ children }: { children: React.ReactNode }) {
         overflow: "scroll",
         backgroundColor: "#eee",
         padding: 8,
-      }}>
+      }}
+    >
       <FocusRingScope containerRef={containerRef}>{children}</FocusRingScope>
     </div>
   );

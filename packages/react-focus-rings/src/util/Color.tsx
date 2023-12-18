@@ -133,9 +133,9 @@ export default class Color {
    * Provide the hex string value for the color
    */
   toHexString(): string {
-    var redString = Math.round(this.red).toString(16);
-    var greenString = Math.round(this.green).toString(16);
-    var blueString = Math.round(this.blue).toString(16);
+    const redString = Math.round(this.red).toString(16);
+    const greenString = Math.round(this.green).toString(16);
+    const blueString = Math.round(this.blue).toString(16);
     return (
       "#" +
       (this.red > 15.5 ? redString : "0" + redString) +
@@ -187,7 +187,7 @@ export default class Color {
       }
     }
 
-    var aRgbHex = colorString.match(/.{1,2}/g);
+    const aRgbHex = colorString.match(/.{1,2}/g);
     if (aRgbHex == null) return undefined;
 
     return new Color(
@@ -248,13 +248,13 @@ export default class Color {
    * http://www.w3.org/WAI/GL/wiki/Relative_luminance.
    */
   getRelativeLuminance(): number {
-    var rSRGB = this.red / 255;
-    var gSRGB = this.green / 255;
-    var bSRGB = this.blue / 255;
+    const rSRGB = this.red / 255;
+    const gSRGB = this.green / 255;
+    const bSRGB = this.blue / 255;
 
-    var r = rSRGB <= 0.03928 ? rSRGB / 12.92 : Math.pow((rSRGB + 0.055) / 1.055, 2.4);
-    var g = gSRGB <= 0.03928 ? gSRGB / 12.92 : Math.pow((gSRGB + 0.055) / 1.055, 2.4);
-    var b = bSRGB <= 0.03928 ? bSRGB / 12.92 : Math.pow((bSRGB + 0.055) / 1.055, 2.4);
+    const r = rSRGB <= 0.03928 ? rSRGB / 12.92 : Math.pow((rSRGB + 0.055) / 1.055, 2.4);
+    const g = gSRGB <= 0.03928 ? gSRGB / 12.92 : Math.pow((gSRGB + 0.055) / 1.055, 2.4);
+    const b = bSRGB <= 0.03928 ? bSRGB / 12.92 : Math.pow((bSRGB + 0.055) / 1.055, 2.4);
 
     return 0.2126 * r + 0.7152 * g + 0.0722 * b;
   }
