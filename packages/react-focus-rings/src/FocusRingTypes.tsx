@@ -21,8 +21,8 @@ export interface FocusRingProps {
   enabled?: boolean;
   focused?: boolean;
   offset?: Offset | number;
-  focusTarget?: React.RefObject<Element>;
-  ringTarget?: React.RefObject<Element>;
+  focusTarget?: React.RefObject<Element | null>;
+  ringTarget?: React.RefObject<Element | null>;
   ringClassName?: string;
   focusClassName?: string;
   focusWithinClassName?: string;
