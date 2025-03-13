@@ -12,12 +12,12 @@
   },
   "dependencies": {
     "react-focus-rings": "workspace:../react-focus-rings",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@types/react": "^18.0.17",
-    "@types/react-dom": "^18.0.6",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^2.1.0",
     "typescript": "^5.4.5",
     "vite": "^3.1.0"
