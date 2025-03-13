@@ -6,7 +6,7 @@ import FocusRingManager from "./FocusRingManager";
 import { ThemeOptions } from "./FocusRingTypes";
 
 type FocusRingScopeProps = {
-  containerRef: React.RefObject<Element>;
+  containerRef: React.RefObject<Element | null>;
   children: React.ReactNode;
   themeOptions?: ThemeOptions;
 };
