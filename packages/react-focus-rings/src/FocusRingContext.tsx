@@ -134,7 +134,7 @@ export class FocusRingContextManager {
     if (this.container == null) return {};
 
     const containerRect = this.container.getBoundingClientRect();
-    const { scrollTop, scrollLeft } = this.container;
+    const { scrollTop, scrollLeft, clientTop, clientLeft } = this.container;
 
     let top = 0;
     let right = 0;
@@ -154,10 +154,14 @@ export class FocusRingContextManager {
     }
 
     return {
-      top: scrollTop + rect.top - containerRect.top + top,
+      // `left`/`top` on an absolutely positioned ring resolve against the
+      // container's padding-box, not its border-box, so the origin must move
+      // in by `clientTop`/`clientLeft` (border width, plus any leading-edge
+      // scrollbar gutter) or the ring drifts by that amount.
+      top: scrollTop + rect.top - (containerRect.top + clientTop) + top,
       width: rect.width - (right + left),
       height: rect.height - (bottom + top),
-      left: scrollLeft + rect.left - containerRect.left + left,
+      left: scrollLeft + rect.left - (containerRect.left + clientLeft) + left,
     };
   }
 
