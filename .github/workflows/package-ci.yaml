@@ -14,7 +14,6 @@ jobs:
       - uses: pnpm/setup@v2
         with:
           runtime: node@22
-          version: 9
           install: true
           cache: true
 

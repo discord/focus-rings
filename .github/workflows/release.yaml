@@ -18,14 +18,14 @@ jobs:
       contents: write
       id-token: write
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v6
+      - uses: pnpm/setup@v2
         with:
-          node-version: 20
+          runtime: node@22
+          install: true
+          cache: true
 
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 8
-      - run: pnpm install
-
-      - run: pnpm publish --access public --provenance
+      - shell: sh
+        run: |-
+          git status
+          pnpm publish --access public --provenance
