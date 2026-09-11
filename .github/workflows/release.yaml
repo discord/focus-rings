@@ -19,11 +19,13 @@ jobs:
       id-token: write
     steps:
       - uses: actions/checkout@v6
-      - uses: pnpm/setup@v2
+      - uses: actions/setup-node@v4
         with:
-          runtime: node@22
-          install: true
-          cache: true
+          node-version: 22
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 9.12.2
+      - run: pnpm install
 
       - shell: sh
         run: |-
