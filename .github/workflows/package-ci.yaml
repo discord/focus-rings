@@ -10,13 +10,14 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
       - uses: pnpm/action-setup@v2
         with:
-          version: 9
+          version: 9.12.2
       - run: pnpm install
+
       - run: pnpm run build
       - run: pnpm run lint
