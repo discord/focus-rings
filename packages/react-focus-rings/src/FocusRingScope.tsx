@@ -19,7 +19,7 @@ export default function FocusRingScope(props: FocusRingScopeProps) {
     manager.current.setContainer(containerRef.current);
     manager.current.setThemeOptions(themeOptions);
     // We do actually want this to run every time `current` changes
-  }, [containerRef.current]);
+  }, [containerRef.current, themeOptions]);
 
   return (
     <FocusRingContext.Provider value={manager.current}>
