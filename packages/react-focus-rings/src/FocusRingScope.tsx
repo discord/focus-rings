@@ -9,17 +9,23 @@ type FocusRingScopeProps = {
   containerRef: React.RefObject<Element | null>;
   children: React.ReactNode;
   themeOptions?: ThemeOptions;
+  /**
+   * Draw focus ring edges inside the target when they would extend beyond the enclosing
+   * scrollable area.
+   */
+  containRing?: boolean;
 };
 
 export default function FocusRingScope(props: FocusRingScopeProps) {
-  const { containerRef, children, themeOptions } = props;
+  const { containerRef, children, themeOptions, containRing = false } = props;
   const manager = React.useRef(new FocusRingContextManager());
 
   React.useEffect(() => {
     manager.current.setContainer(containerRef.current);
     manager.current.setThemeOptions(themeOptions);
+    manager.current.setContainRing(containRing);
     // We do actually want this to run every time `current` changes
-  }, [containerRef.current]);
+  }, [containerRef.current, containRing]);
 
   return (
     <FocusRingContext.Provider value={manager.current}>

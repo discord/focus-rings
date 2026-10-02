@@ -25,11 +25,109 @@ function setActiveRingContextManager(manager: FocusRingContextManager) {
   }
 }
 
+// Keep this in sync with the box-shadow spread in styles.css.
+const RING_WIDTH = 4;
+
+const AXES = {
+  x: {
+    start: "left",
+    clientStart: "clientLeft",
+    clientSize: "clientWidth",
+    scroll: "scrollLeft",
+    scrollSize: "scrollWidth",
+  },
+  y: {
+    start: "top",
+    clientStart: "clientTop",
+    clientSize: "clientHeight",
+    scroll: "scrollTop",
+    scrollSize: "scrollHeight",
+  },
+} as const;
+
+type Axis = keyof typeof AXES;
+
+type Extent = { start: number; end: number };
+
+type FlowDirection = "forward" | "backward";
+
 function parseBorderRadius(radius: string | undefined) {
   if (radius) {
     return parseInt(radius) > 0 ? radius : undefined;
   }
   return undefined;
+}
+
+function reverse(direction: FlowDirection, reversed: boolean): FlowDirection {
+  if (!reversed) return direction;
+  return direction === "forward" ? "backward" : "forward";
+}
+
+/**
+ * Return the physical direction that content flows along each axis, where
+ * forward is right or down.
+ */
+function getFlowDirections(style: CSSStyleDeclaration): Record<Axis, FlowDirection> {
+  const { writingMode, direction, display, flexDirection, flexWrap } = style;
+  let inline = reverse(direction === "rtl" ? "backward" : "forward", writingMode === "sideways-lr");
+  let block: FlowDirection =
+    writingMode === "vertical-rl" || writingMode === "sideways-rl" ? "backward" : "forward";
+
+  if (display.endsWith("flex")) {
+    const mainReversed = flexDirection.endsWith("reverse");
+    const crossReversed = flexWrap === "wrap-reverse";
+    const column = flexDirection.startsWith("column");
+    inline = reverse(inline, column ? crossReversed : mainReversed);
+    block = reverse(block, column ? mainReversed : crossReversed);
+  }
+
+  return writingMode === "horizontal-tb" ? { x: inline, y: block } : { x: block, y: inline };
+}
+
+/**
+ * Return the viewport positions where `element` starts and stops showing
+ * content along `axis`. For a scroll container, this covers everything it can
+ * scroll to.
+ */
+function getClipExtent(
+  element: Element,
+  rect: DOMRect,
+  overflow: string,
+  flowDirection: FlowDirection,
+  axis: Axis,
+): Extent {
+  const { start, clientStart, clientSize, scroll, scrollSize } = AXES[axis];
+  const paddingStart = rect[start] + element[clientStart];
+  // `clip` never scrolls, so nothing outside the padding box is ever visible.
+  if (overflow === "clip") {
+    return { start: paddingStart, end: paddingStart + element[clientSize] };
+  }
+
+  // Take the overflow direction from the layout, not the offset's sign, which
+  // elastic overscroll can push past zero.
+  const backward = flowDirection === "backward";
+  const overflowSize = element[scrollSize] - element[clientSize];
+  const scrollStart = paddingStart - element[scroll] - (backward ? overflowSize : 0);
+  return { start: scrollStart, end: scrollStart + element[scrollSize] };
+}
+
+/**
+ * Shrink the ring along one axis so that its shadow stays inside `extent`.
+ */
+function insetToExtent(
+  /** In ring coordinates. */
+  start: number,
+  size: number,
+  /** In viewport coordinates. */
+  extent: Extent | undefined,
+  /** The viewport position of ring coordinate 0. */
+  origin: number,
+): [number, number] {
+  if (extent == null) return [start, size];
+
+  const insetStart = Math.max(start, extent.start - origin + RING_WIDTH);
+  const insetEnd = Math.min(start + size, extent.end - origin - RING_WIDTH);
+  return [insetStart, Math.max(0, insetEnd - insetStart)];
 }
 
 export class FocusRingContextManager {
@@ -41,6 +139,7 @@ export class FocusRingContextManager {
   zIndex?: number;
   container: Element | null = null;
   themeOptions?: ThemeOptions;
+  containRing = false;
 
   invalidate: () => void = () => null;
 
@@ -50,6 +149,12 @@ export class FocusRingContextManager {
 
   setThemeOptions(themeOptions?: ThemeOptions) {
     this.themeOptions = themeOptions;
+  }
+
+  setContainRing(containRing: boolean) {
+    if (containRing === this.containRing) return;
+    this.containRing = containRing;
+    this.invalidate();
   }
 
   showElement(element: Element, opts: FocusRingShowOpts = {}) {
@@ -153,7 +258,7 @@ export class FocusRingContextManager {
       left = this.offset.left ?? 0;
     }
 
-    return {
+    const position = {
       // `left`/`top` on an absolutely positioned ring resolve against the
       // container's padding-box, not its border-box, so the origin must move
       // in by `clientTop`/`clientLeft` (border width, plus any leading-edge
@@ -163,6 +268,52 @@ export class FocusRingContextManager {
       height: rect.height - (bottom + top),
       left: scrollLeft + rect.left - (containerRect.left + clientLeft) + left,
     };
+
+    return this.containRing
+      ? this.containToScrollExtent(this.container, containerRect, position)
+      : position;
+  }
+
+  // Keep the ring inside the whole scrollable area, not only the visible part.
+  // Otherwise, the ring would be pulled into view on an element that is only
+  // partly visible.
+  private containToScrollExtent(
+    container: Element,
+    containerRect: DOMRect,
+    position: { top: number; left: number; width: number; height: number },
+  ) {
+    // Styles and ancestry can change at any time, so look this up on every call.
+    // Each axis stops at the nearest element that clips it.
+    let x: Extent | undefined;
+    let y: Extent | undefined;
+    let current: Element | null = container;
+    while (current != null && current !== document.body && (x == null || y == null)) {
+      const style = window.getComputedStyle(current);
+      const { overflowX, overflowY } = style;
+      const clipsX = x == null && overflowX !== "visible";
+      const clipsY = y == null && overflowY !== "visible";
+      if (clipsX || clipsY) {
+        const rect = current === container ? containerRect : current.getBoundingClientRect();
+        const flow = getFlowDirections(style);
+        if (clipsX) x = getClipExtent(current, rect, overflowX, flow.x, "x");
+        if (clipsY) y = getClipExtent(current, rect, overflowY, flow.y, "y");
+      }
+      current = current.parentElement;
+    }
+
+    const [left, width] = insetToExtent(
+      position.left,
+      position.width,
+      x,
+      containerRect.left + container.clientLeft - container.scrollLeft,
+    );
+    const [top, height] = insetToExtent(
+      position.top,
+      position.height,
+      y,
+      containerRect.top + container.clientTop - container.scrollTop,
+    );
+    return { top, left, width, height };
   }
 
   /**

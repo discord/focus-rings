@@ -22,7 +22,15 @@ function Anchor({ children }: { children: React.ReactNode }) {
   );
 }
 
-function Scrollable({ children }: { children: React.ReactNode }) {
+function Scrollable({
+  children,
+  containRing,
+  padding = 8,
+}: {
+  children: React.ReactNode;
+  containRing?: boolean;
+  padding?: number;
+}) {
   const containerRef = React.useRef<HTMLDivElement>(null);
   // Render the scope _within_ the scrolling container so that it will render
   // in the same layer and perfectly follow content as it scrolls.
@@ -35,11 +43,35 @@ function Scrollable({ children }: { children: React.ReactNode }) {
         height: 100,
         overflow: "scroll",
         backgroundColor: "#eee",
-        padding: 8,
+        padding,
       }}
     >
-      <FocusRingScope containerRef={containerRef}>{children}</FocusRingScope>
+      <FocusRingScope containerRef={containerRef} containRing={containRing}>
+        {children}
+      </FocusRingScope>
     </div>
+  );
+}
+
+function Row({ children }: { children: React.ReactNode }) {
+  return (
+    <FocusRing>
+      <div tabIndex={0} style={{ padding: 8, backgroundColor: "#ddd", marginBottom: 2 }}>
+        {children}
+      </div>
+    </FocusRing>
+  );
+}
+
+function EdgeToEdgeRows() {
+  return (
+    <>
+      <Row>First row</Row>
+      <Row>Second row</Row>
+      <Row>Third row</Row>
+      <Row>Fourth row</Row>
+      <Row>Last row</Row>
+    </>
   );
 }
 
@@ -73,6 +105,27 @@ function App() {
             <p>More padding text</p>
             <Button />
           </Scrollable>
+
+          <p>
+            Scroll containers can cut off rings on edge-to-edge rows. With <code>containRing</code>,
+            ring edges that extend past the scrollable area move inside the row.
+          </p>
+          <div style={{ display: "flex", gap: 16 }}>
+            <div style={{ flex: 1 }}>
+              <p>Default</p>
+              <Scrollable padding={0}>
+                <EdgeToEdgeRows />
+              </Scrollable>
+            </div>
+            <div style={{ flex: 1 }}>
+              <p>
+                <code>containRing</code>
+              </p>
+              <Scrollable padding={0} containRing>
+                <EdgeToEdgeRows />
+              </Scrollable>
+            </div>
+          </div>
         </div>
       </div>
     </FocusRingScope>

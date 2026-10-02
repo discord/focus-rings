@@ -49,6 +49,21 @@ Keep in mind that **the element provided to `containerRef` must be styled with
 `FocusRingScope` in the correct places and that the `containerRef` element has the
 `position: relative` style.
 
+#### Keeping rings inside scroll containers
+
+Focus rings are drawn just outside the focused element. When that element sits against the edge of a
+scroll container, the container cuts off part of the ring. Pass `containRing` to the
+`FocusRingScope` inside the scroll container to move those edges of the ring inside the element.
+Only the edges that would be cut off move.
+
+```tsx
+<div ref={containerRef} style={{ position: "relative", overflowY: "auto" }}>
+  <FocusRingScope containerRef={containerRef} containRing>
+    {/* ... */}
+  </FocusRingScope>
+</div>
+```
+
 ### `FocusRing`
 
 The `FocusRing` is the main show. You can wrap any focusable element with a `FocusRing` and it will
